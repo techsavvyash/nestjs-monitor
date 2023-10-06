@@ -10,7 +10,7 @@ import * as redisStore from 'cache-manager-redis-store';
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
       host: 'localhost',
-      port: 6379,
+      port: 6359,
     }),
   ],
   providers: [MonitoringService],
