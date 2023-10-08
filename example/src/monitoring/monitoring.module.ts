@@ -2,6 +2,7 @@ import { Module, OnModuleInit, Global, DynamicModule } from '@nestjs/common';
 import { MonitoringService } from './monitoring.service';
 import { CacheModule } from '@nestjs/cache-manager';
 import type { RedisClientOptions } from 'redis';
+import { MonitoringController } from './monitoring.controller';
 import * as redisStore from 'cache-manager-redis-store';
 
 @Global()
@@ -15,6 +16,7 @@ import * as redisStore from 'cache-manager-redis-store';
   ],
   providers: [MonitoringService],
   exports: [MonitoringService],
+  controllers: [MonitoringController],
 })
 export class MonitoringModule implements OnModuleInit {
   constructor(private readonly monitoringService: MonitoringService) {}
