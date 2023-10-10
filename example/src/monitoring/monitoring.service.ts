@@ -22,8 +22,12 @@ export class MonitoringService {
     return this.cache.get('requestCount') || 0;
   }
 
-  public incrementRequestCounter(): void {
+  public async incrementRequestCounter(): Promise<void> {
     this.requestCounter.inc();
+    await this.cache.set(
+      'requestCount',
+      (await this.requestCounter.get()).values[0].value + 1,
+    );
   }
 
   public async onExit(): Promise<void> {
