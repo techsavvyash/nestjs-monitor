@@ -1,17 +1,30 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
-import { CacheModule, Injectable, Inject } from '@nestjs/common';
+import { Cache, Store } from 'cache-manager';
+import { Injectable, Inject } from '@nestjs/common';
 import { Counter } from 'prom-client';
+import Redis from 'redis';
+
+// https://stackoverflow.com/questions/68117902/how-can-i-get-redis-io-client-from-nestjs-cachemanager-module
+interface RedisCache extends Cache {
+  store: RedisStore;
+}
+
+interface RedisStore extends Store {
+  name: 'redis';
+  getClient: () => Redis.RedisClientType;
+  isCacheableValue: (value: any) => boolean;
+}
 
 @Injectable()
 export class MonitoringService {
-  constructor(@Inject(CACHE_MANAGER) private cache: Cache) {}
+  constructor(@Inject(CACHE_MANAGER) private cache: RedisCache) {}
 
   async initializeAsync() {
     console.log(
       'Initializing counter on start ',
       (await this.cache.get('requestCount')) || '0',
     );
+
     await this.requestCounter.inc(
       parseInt((await this.cache.get('requestCount')) || '0'),
     );
@@ -28,14 +41,9 @@ export class MonitoringService {
 
   public async incrementRequestCounter(): Promise<void> {
     this.requestCounter.inc();
-    console.log(
-      'Cache set',
-      (await this.requestCounter.get()).values[0].value + 1,
-    );
-    await this.cache.set(
-      'requestCount',
-      (await this.requestCounter.get()).values[0].value + 1,
-    );
+
+    const client = this.cache.store.getClient();
+    client.incr('requestCount');
   }
 
   public async onExit(): Promise<void> {
@@ -44,10 +52,7 @@ export class MonitoringService {
       (await this.requestCounter.get()).values[0].value + 1,
     );
     try {
-      await this.cache.set(
-        'requestCount',
-        (await this.requestCounter.get()).values[0].value + 1,
-      );
+      await this.incrementRequestCounter();
     } catch (err) {
       console.log(err);
     }
