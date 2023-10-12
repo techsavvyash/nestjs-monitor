@@ -1,4 +1,4 @@
-import { Controller, Get, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Query, UseInterceptors } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MonitoringService } from './monitoring/monitoring.service';
 import { ResponseTimeInterceptor } from './interceptors/response-time.interceptor';
@@ -18,7 +18,8 @@ export class AppController {
   }
 
   @Get('/route')
-  randomRoute(): string {
+  async randomRoute(@Query('delay') delay: number): Promise<string> {
+    await new Promise((resolve) => setTimeout(resolve, delay));
     return 'Hello from random route!';
   }
 }

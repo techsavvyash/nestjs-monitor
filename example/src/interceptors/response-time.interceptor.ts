@@ -21,13 +21,12 @@ export class ResponseTimeInterceptor implements NestInterceptor {
   }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const startTime = Date.now();
+    const startTime = performance.now();
 
     return next.handle().pipe(
       tap(() => {
-        const endTime = Date.now();
+        const endTime = performance.now();
         const responseTime = endTime - startTime;
-        console.log(`Response time: ${responseTime}ms`);
         this.histogram.observe(responseTime);
       }),
     );

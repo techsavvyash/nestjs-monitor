@@ -33,6 +33,7 @@ export class MonitoringService {
     try {
       for (const metric of metricsToUpsert) {
         console.log(metric);
+        // TODO: Persist histogram data on exit in cache as well
         await this.cache.set(
           'requestCount',
           (await this.requestCounter.get()).values[0].value + 1,
