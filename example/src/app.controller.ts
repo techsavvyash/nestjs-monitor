@@ -12,8 +12,8 @@ export class AppController {
   ) {}
 
   @Get()
-  getHello(): string {
-    this.monitoringService.incrementRequestCounter();
+  async getHello(): Promise<string> {
+    await this.monitoringService.incrementRequestCounter();
     return this.appService.getHello();
   }
 
