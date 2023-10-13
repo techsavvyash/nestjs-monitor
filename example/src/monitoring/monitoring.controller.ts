@@ -1,5 +1,5 @@
 import { Controller, Get, UseInterceptors } from '@nestjs/common';
-import { ResponseTimeInterceptor } from 'src/interceptors/response-time.interceptor';
+import { ResponseTimeInterceptor } from '../interceptors/response-time.interceptor';
 
 @Controller('monitoring')
 export class MonitoringController {
