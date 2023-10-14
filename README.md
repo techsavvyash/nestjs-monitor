@@ -18,7 +18,7 @@ An opinionated nestjs monitoring setup with Prometheus and Grafana.
 ```
 
 ### At a class/controller level
-
+Add the following code in your `abc.controller.ts` file.
 ```ts
 @Controller()
 @UseInterceptors(new ResponseTimeInterceptor('class_response_time'))// <<-- focus on this line
@@ -43,7 +43,7 @@ export class AppController {
 ```
 
 ### At global level
-
+Add the following code in your `main.ts` file for nestJS.
 ```ts
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
