@@ -4,7 +4,7 @@ import { MonitoringService } from './monitoring/monitoring.service';
 import { ResponseTimeInterceptor } from './interceptors/response-time.interceptor';
 
 @Controller()
-@UseInterceptors(new ResponseTimeInterceptor('class_response_time'))
+@UseInterceptors(new ResponseTimeInterceptor('class'))
 export class AppController {
   constructor(
     private readonly appService: AppService,
