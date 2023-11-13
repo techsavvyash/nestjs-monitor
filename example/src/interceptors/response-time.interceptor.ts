@@ -17,6 +17,7 @@ export class ResponseTimeInterceptor implements NestInterceptor {
       name: histogramTitle,
       help: 'Response time of APIs',
       buckets: client.exponentialBuckets(1, 1.5, 30),
+      // labelNames: [] // What names to add here??
     });
   }
 

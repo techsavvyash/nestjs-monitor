@@ -12,7 +12,7 @@ import * as redisStore from 'cache-manager-redis-store';
       isGlobal: true,
       store: redisStore,
       host: 'localhost',
-      port: 6359,
+      port: 6379,
     }),
   ],
   providers: [MonitoringService],
