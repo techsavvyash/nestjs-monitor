@@ -3,9 +3,10 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
+  BadGatewayException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import * as client from 'prom-client';
 
 import * as fs from 'fs';
@@ -46,7 +47,7 @@ export class ResponseTimeInterceptor implements NestInterceptor {
     const httpContext = context.switchToHttp();
     const request = httpContext.getRequest();
     const response = httpContext.getResponse();
-    console.log('response: ', response);
+    // console.log('response: ', response);
 
     const startTime = performance.now();
 
@@ -56,8 +57,21 @@ export class ResponseTimeInterceptor implements NestInterceptor {
         const responseTime = endTime - startTime;
         const statusCode = response.statusCode;
         const endpoint = request.url;
-
+        console.log('status code is ', statusCode, ' for endpoint ', endpoint);
         this.histogram.labels({ statusCode, endpoint }).observe(responseTime);
+      }),
+      catchError((err) => {
+        console.log('error: ', err);
+        const endTime = performance.now();
+        const responseTime = endTime - startTime;
+        const statusCode = response.statusCode;
+        const endpoint = request.url;
+        this.histogram
+          .labels({ statusCode: err.status, endpoint })
+          .observe(responseTime);
+        return throwError(() => {
+          throw err;
+        });
       }),
     );
   }
