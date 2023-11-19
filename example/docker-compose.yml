@@ -6,7 +6,7 @@ services:
     ports:
       - '6379:6379'
     command: redis-server --save 20 1
-    volumes: 
+    volumes:
       - cache:/data
 volumes:
   cache:
