@@ -570,13 +570,3 @@ export const generateAverageResponseTimePanel = (label: string) => {
     type: 'timeseries',
   };
 };
-
-// export const addPanels = (label: string) => {
-//   // read base template
-//   const baseJSON = null; // this is the base JSON template without panels
-//   try {
-//     baseJSON =
-//   } catch (err) {
-//     console.error('Error reading base template: ', err);
-//   }
-// };

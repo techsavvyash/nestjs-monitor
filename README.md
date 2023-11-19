@@ -1,11 +1,14 @@
 <h1 align="center">NestJS Monitor</h1>
 
 <div align="center">
-An opinionated nestjs monitoring setup with Prometheus and Grafana.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ChakshuGautam/nestjs-monitor)
 
-## How to use the `response-time` interceptor 
+An opinionated nestjs monitoring setup with Prometheus and Grafana.
+This project aims to create a `NestJS` interceptor to monitor the `response times` of different APIs in your `NestJS` app. Along with support for dynamic creation of Grafana Panels for each instance of the interceptor used in your app.
+</div>
+
+## Usage
 
 ### At a method/endpoint level
 
@@ -18,7 +21,7 @@ An opinionated nestjs monitoring setup with Prometheus and Grafana.
 ```
 
 ### At a class/controller level
-Add the following code in your `abc.controller.ts` file.
+Add the following code in your `<NAME>.controller.ts` file.
 ```ts
 @Controller()
 @UseInterceptors(new ResponseTimeInterceptor('class_response_time'))// <<-- focus on this line
