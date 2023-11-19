@@ -18,7 +18,7 @@ export class ResponseTimeInterceptor implements NestInterceptor {
 
   constructor(
     histogramTitle: string,
-    jsonPath = '../monitor/grafana/provisioning/dashboards/response_times.json', // this path should almost always works because nestJS resolves relative path from the src directory by default
+    jsonPath: string, // this path should almost always works because nestJS resolves relative path from the src directory by default
   ) {
     const name = histogramTitle + '_response_time';
     this.logger = new Logger(name + '_interceptor');
@@ -43,7 +43,14 @@ export class ResponseTimeInterceptor implements NestInterceptor {
       let isPresent = false;
       parsedContent.panels.forEach((panel: any) => {
         // TODO: Make this verbose and add types -- convert the grafana JSON to TS Types/interface
-        if (panel.title.trim() === name.trim()) {
+        if (
+          panel.title.trim() ===
+          name
+            .split('_')
+            .map((str) => str.charAt(0).toUpperCase() + str.slice(1))
+            .join(' ')
+            .trim()
+        ) {
           isPresent = true;
         }
       });

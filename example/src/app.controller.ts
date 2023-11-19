@@ -10,7 +10,12 @@ import { MonitoringService } from './monitoring/monitoring.service';
 import { ResponseTimeInterceptor } from './interceptors/response-time.interceptor';
 
 @Controller()
-@UseInterceptors(new ResponseTimeInterceptor('class'))
+@UseInterceptors(
+  new ResponseTimeInterceptor(
+    'class',
+    '../monitor/grafana/provisioning/dashboards/response_times.json',
+  ),
+)
 export class AppController {
   constructor(
     private readonly appService: AppService,

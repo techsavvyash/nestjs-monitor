@@ -10,11 +10,18 @@ This project aims to create a `NestJS` interceptor to monitor the `response time
 
 ## Usage
 
+The usage of this interceptor needs you to have a the following services running:
+  1. Redis
+  2. Prometheus
+  3. Grafana
+
+A sample `docker-compose.yml` is present in the `monitoring/` folder for your reference.
+
 ### At a method/endpoint level
 
 ```ts
 @Get()
-  @UseInterceptors(new ResponseTimeInterceptor('monitoring_response_time')) // <<-- focus on this line
+  @UseInterceptors(new ResponseTimeInterceptor('monitoring_response_time', 'path/to/your/grafana/config/folder')) // <<-- focus on this line
   getMonitoringHell(): string {
     return 'Hello from monitoring controller!';
   }
@@ -24,7 +31,7 @@ This project aims to create a `NestJS` interceptor to monitor the `response time
 Add the following code in your `<NAME>.controller.ts` file.
 ```ts
 @Controller()
-@UseInterceptors(new ResponseTimeInterceptor('class_response_time'))// <<-- focus on this line
+@UseInterceptors(new ResponseTimeInterceptor('class_response_time', 'path/to/your/grafana/config/folder'))// <<-- focus on this line
 export class AppController {
   constructor(
     private readonly appService: AppService,
@@ -54,6 +61,6 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
-  app.useGlobalInterceptors(new ResponseTimeInterceptor('global_interceptor')); //<<-- focus on this line
+  app.useGlobalInterceptors(new ResponseTimeInterceptor('global_interceptor', 'path/to/your/grafana/config/folder')); //<<-- focus on this line
 }
 ```

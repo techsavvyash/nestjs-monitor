@@ -13,7 +13,12 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
-  app.useGlobalInterceptors(new ResponseTimeInterceptor('global_interceptor'));
+  app.useGlobalInterceptors(
+    new ResponseTimeInterceptor(
+      'global_interceptor',
+      '../monitor/grafana/provisioning/dashboards/response_times.json',
+    ),
+  );
 
   process.on('exit', (code) => {
     console.log(`Process is exiting with code: ${code}`);
