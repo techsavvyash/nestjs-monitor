@@ -1,7 +1,6 @@
 import { Module, OnModuleInit, Global, DynamicModule } from '@nestjs/common';
 import { MonitoringService } from './monitoring.service';
 import { CacheModule } from '@nestjs/cache-manager';
-import type { RedisClientOptions } from 'redis';
 import { MonitoringController } from './monitoring.controller';
 import * as redisStore from 'cache-manager-redis-store';
 
@@ -11,8 +10,8 @@ import * as redisStore from 'cache-manager-redis-store';
     CacheModule.register({
       isGlobal: true,
       store: redisStore,
-      host: 'localhost',
-      port: 6379,
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT,
     }),
   ],
   providers: [MonitoringService],

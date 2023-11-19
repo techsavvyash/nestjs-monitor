@@ -10,10 +10,12 @@ import { AppService } from './app.service';
 import { MonitoringModule } from './monitoring/monitoring.module';
 import { MonitoringService } from './monitoring/monitoring.service';
 import { ResponseTimeInterceptor } from './interceptors/response-time.interceptor';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     MonitoringModule,
+    ConfigModule.forRoot(),
     PrometheusModule.register({
       defaultMetrics: {
         enabled: false,
@@ -23,8 +25,4 @@ import { ResponseTimeInterceptor } from './interceptors/response-time.intercepto
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  // configure(consumer: MiddlewareConsumer) {
-  //   consumer.apply(ResponseTimeInterceptor).forRoutes('*');
-  // }
-}
+export class AppModule {}

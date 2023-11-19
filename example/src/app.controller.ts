@@ -1,4 +1,10 @@
-import { Controller, Get, NotFoundException, Query, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { MonitoringService } from './monitoring/monitoring.service';
 import { ResponseTimeInterceptor } from './interceptors/response-time.interceptor';

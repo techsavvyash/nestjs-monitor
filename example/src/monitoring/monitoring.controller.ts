@@ -14,4 +14,10 @@ export class MonitoringController {
   getRandomRoute(): string {
     return 'Hello from Random, this should not increase the monitoring reponse time metric but should incrase the global one!';
   }
+
+  @UseInterceptors(new ResponseTimeInterceptor('test'))
+  @Get('/test')
+  getTest(): string {
+    return 'hELLo from test path!!';
+  }
 }
