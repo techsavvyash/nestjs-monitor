@@ -3,13 +3,13 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { AppModule } from './app.module';
+import { MonitorModule } from './app.module';
 import { MonitoringService } from './monitoring/monitoring.service';
 import { ResponseTimeInterceptor } from './interceptors/response-time.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
+    MonitorModule,
     new FastifyAdapter(),
   );
 
