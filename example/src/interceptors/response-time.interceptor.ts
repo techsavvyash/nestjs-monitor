@@ -16,10 +16,7 @@ export class ResponseTimeInterceptor implements NestInterceptor {
   private histogram: client.Histogram;
   private logger: Logger;
 
-  constructor(
-    histogramTitle: string,
-    jsonPath: string, // this path should almost always works because nestJS resolves relative path from the src directory by default
-  ) {
+  constructor(histogramTitle: string, jsonPath: string) {
     const name = histogramTitle + '_response_time';
     this.logger = new Logger(name + '_interceptor');
 
