@@ -58,3 +58,13 @@ export class MonitoringService {
     }
   }
 }
+
+interface MonitoringServiceInterface {
+  initializeAsync(): Promise<void>;
+  getRequestCounter(): Promise<number>;
+  incrementRequestCounter(): Promise<void>;
+  onExit(): Promise<void>;
+  requestCounter: Counter<string>;
+}
+
+export { MonitoringServiceInterface };
