@@ -1,3 +1,3 @@
-export * as PromModule from './app.controller';
+export * as PromModule from './app.module';
 export * from './interceptors';
 export * from './monitoring';
